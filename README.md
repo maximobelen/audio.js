@@ -13,10 +13,10 @@ var audioElement = document.getElementById('background-audio');
 var audioJS = AudioJS(audioElement);  
 var options = {
   duration: 10, //in seconds
-  intialVolume: 0, // a volume from 0.0 to 1.0,
-  finalVolume: 0.9, // a volume from 0.0 to 1.0,
-  ease: 'easeOutExpo'
-  callback: function(){console.log('Im a callback!')}
+  intialVolume: 0, // a volume from 0.0 to 1.0
+  finalVolume: 0.9, // a volume from 0.0 to 1.0
+  ease: 'easeOutExpo',
+  callback: function(){console.log('Im a callback!');}
 };  
   
 audioJS.fadeIn(options);
@@ -31,11 +31,11 @@ audioJS.fadeIn({duration: 2, initialVolume: 0, finalVolume: 0.95, ease: 'easeOut
   
 audioJS.fadeIn({duration: 10, initialVolume: 0, finalVolume: 0.95, ease: 'easeOutExpo', 
   callback: function(){
-    console.log("bullshit")
+    console.log("bullshit");
   }
 });
 ```
-###FADE IN
+###FADE OUT
 ```js
 audioJS.fadeOut({duration: 3, initialVolume: 0.9, finalVolume: 0.1});  
 
