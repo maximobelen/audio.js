@@ -342,6 +342,13 @@ module.exports = function(grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      sounds: {
+        expand: true,
+        dot: true,
+        cwd: '<%= yeoman.app %>/sounds',
+        dest: '.tmp/sounds/',
+        src: '{,*/}*.{mp3,ogg}'
       }
     },
     
@@ -351,6 +358,7 @@ module.exports = function(grunt) {
         'browserify:dev',
         'browserify:vendor',
         'copy:styles',
+        'copy:sounds',
         'imagemin:dev'
       ],
       test: [
@@ -364,6 +372,7 @@ module.exports = function(grunt) {
         'less:dist',
         'browserify',
         'copy:styles',
+        'copy:sounds',
         'imagemin:dist',
         'svgmin',
         'htmlmin'

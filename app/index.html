@@ -16,20 +16,20 @@
         alt="Fork me on GitHub">
       </a>
       <h1>audio.js</h1>
-      <div id="fade-in" class="col-md-6 col-sm-12 col-xs-12 section">
+      <div id="fade-in" class="col-md-4 col-sm-12 col-xs-12 section">
         <h2 class="title center-block">FadeIn</h2>
-        <form role="form" class="col-md-6 col-sm-4 col-xs-6 col-md-offset-3 col-sm-offset-4 col-xs-offset-3">
+        <form role="form" class="col-md-8 col-sm-6 col-xs-8 col-md-offset-1 col-sm-offset-3 col-xs-offset-2">
           <div class="form-group">
             <label for="duration">duration:</label>
-            <input type="number" class="form-control" id="duration">
+            <input type="number" class="form-control" id="duration" min="0.0" required>
           </div>
           <div class="form-group">
             <label for="initialVolume">initialVolume:</label>
-            <input type="number" class="form-control" min="0.0" max="1.0" id="initialVolume">
+            <input type="number" class="form-control" min="0.0" max="1.0" id="initialVolume" required>
           </div>
           <div class="form-group">
             <label for="finalVolume">finalVolume:</label>
-            <input type="number" class="form-control" min="0.0" max="1.0" id="finalVolume">
+            <input type="number" class="form-control" min="0.0" max="1.0" id="finalVolume" required>
           </div>
           <div class="form-group">
             <label for="ease">ease:</label>
@@ -50,26 +50,37 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="finalVolume">callback:</label>
-            <input type="text" class="form-control" id="callback">
+            <label for="ease">callback:</label>
+            <select id="callback">
+              <option value="easeLinear">No</option>
+              <option value="easeInQuad">Yes</option>
+            </select>
           </div>
           <button type="submit" class="btn btn-default">Try it!</button>
         </form>
       </div>
-      <div id="fade-out" class="col-md-6 col-sm-12 col-xs-12 section">
+      <div class="col-md-4 col-sm-12 col-xs-12 board">
+        <h2 class="title center-block">BOARD</h2>
+        <audio id="audio-file">
+          <source src="/sounds/piano.ogg" type="audio/ogg">
+          <source src="/sounds/piano.mp3" type="audio/mpeg">
+          Your browser does not support the audio tag.
+        </audio>
+      </div>
+      <div id="fade-out" class="col-md-4 col-sm-12 col-xs-12 section">
         <h2 class="title center-block">FadeOut</h2>
-        <form role="form" class="col-md-6 col-sm-4 col-xs-6 col-md-offset-3 col-sm-offset-4 col-xs-offset-3">
+        <form role="form" class="col-md-8 col-sm-6 col-xs-8 col-md-offset-1 col-sm-offset-3 col-xs-offset-2">
           <div class="form-group">
             <label for="duration">duration:</label>
-            <input type="number" class="form-control" id="duration">
+            <input type="number" class="form-control" min="0.0" id="duration" required>
           </div>
           <div class="form-group">
             <label for="initialVolume">initialVolume:</label>
-            <input type="number" class="form-control" min="0.0" max="1.0" id="initialVolume">
+            <input type="number" class="form-control" min="0.0" max="1.0" id="initialVolume" required>
           </div>
           <div class="form-group">
             <label for="finalVolume">finalVolume:</label>
-            <input type="number" class="form-control" min="0.0" max="1.0" id="finalVolume">
+            <input type="number" class="form-control" min="0.0" max="1.0" id="finalVolume" required>
           </div>
           <div class="form-group">
             <label for="ease">ease:</label>
@@ -90,8 +101,11 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="finalVolume">callback:</label>
-            <input type="text" class="form-control" id="callback">
+            <label for="ease">callback:</label>
+            <select id="callback">
+              <option value="easeLinear">No</option>
+              <option value="easeInQuad">Yes</option>
+            </select>
           </div>
           <button type="submit" class="btn btn-default">Try it!</button>
         </form>
