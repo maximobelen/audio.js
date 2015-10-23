@@ -25,7 +25,7 @@ App.prototype.init = function () {
   var fadeOutStart = document.getElementById('fade-out-initial-volume');
   var fadeOutEnd = document.getElementById('fade-out-final-volume');
   var fadeOutEase = document.getElementById('fade-out-ease');
- var fadeOutCallback = document.getElementById('fade-out-callback');
+  var fadeOutCallback = document.getElementById('fade-out-callback');
 
   function registerListeners(){
     fadeInButton.addEventListener('mousedown', function(){
@@ -47,7 +47,7 @@ App.prototype.init = function () {
         finalVolume: parseFloat(fadeOutEnd.value), 
         ease: fadeOutEase.value
       };
-      audioJS.fadeIn(options);
+      audioJS.fadeOut(options);
     });
   }
   registerListeners();
