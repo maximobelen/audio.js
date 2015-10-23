@@ -3,12 +3,13 @@ function AudioJS(element) {
   if (!(this instanceof AudioJS)) {
     return new AudioJS(element);
   }
-  
+  this.killed = false;
   this.audioElement = element;
 }
 
 AudioJS.prototype.fadeIn = function (options) {
   'use strict';
+  this.killed = false;
   if (!isPlaying(this.audioElement)){
     this.audioElement.play();
   }
@@ -44,7 +45,7 @@ AudioJS.prototype.fadeIn = function (options) {
       }
     } 
     
-    if (elapsedTime < duration) {
+    if (elapsedTime < duration && !this.killed) {
       setTimeout(function() {
         fadeIn();
       }, null);
@@ -52,14 +53,19 @@ AudioJS.prototype.fadeIn = function (options) {
       if(callback){
         callback();
       }
+      this.killed = false;
     }
   }.bind(this);
 
   fadeIn();
 };
+AudioJS.prototype.killFade = function () {
+  this.killed = true;
+};
 
 AudioJS.prototype.fadeOut = function (options) {
   'use strict';
+  this.killed = false;
   if (!isPlaying(this.audioElement)){
     this.audioElement.play();
   }
@@ -94,11 +100,16 @@ AudioJS.prototype.fadeOut = function (options) {
         this.audioElement.volume = (startVolume + vol);
       }
     } 
-    if (elapsedTime < duration) {
+    if (elapsedTime < duration && !this.killed) {
       setTimeout(function() {
         fadeOut();
       }, null);
-    } 
+    } else {
+      if(callback){
+        callback();
+      }
+      this.killed = false;
+    }
   }.bind(this);
   fadeOut();
 };

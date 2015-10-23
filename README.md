@@ -41,7 +41,13 @@ audioJS.fadeOut({duration: 3, initialVolume: 0.9, finalVolume: 0.1});
 
 audioJS.fadeOut({duration: 5 , initialVolume: 0.9, finalVolume: 0.1, ease:'easeInQuad'});
 ```
+###KILL FADE
+```js
+  
+//if you want to kill a fade that is animating
+audioJS.killFade();  
 
+```
 ### Available Eases  
 'easeLinear'  
 'easeInQuad'  
