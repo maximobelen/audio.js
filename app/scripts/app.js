@@ -9,31 +9,45 @@ module.exports = App;
 App.prototype.init = function () {
 
   this.audio = document.getElementById('audio-file');
-  this.audioJS = new AudioJS(this.audio);
+  var audioJS = new AudioJS(this.audio);
 
-  this.fadeInButton = document.getElementById('fade-in-button');
-  this.fadeOutButton = document.getElementById('fade-out-button');
-  this.board = document.getElementById('audio-file');
+  var fadeInButton = document.getElementById('fade-in-button');
+  var fadeOutButton = document.getElementById('fade-out-button');
+  var board = document.getElementById('audio-file');
 
-  this.fadeInDuration = document.getElementById('fade-in-duration');
-  this.fadeInInInitial = document.getElementById('fade-in-initial-volume');
-  this.fadeInFinal = document.getElementById('fade-in-final-volume');
-  this.fadeInEase = document.getElementById('fade-in-ease');
-  this.fadeInCallback = document.getElementById('fade-in-callback');
+  var fadeInDuration = document.getElementById('fade-in-duration');
+  var fadeInStart = document.getElementById('fade-in-initial-volume');
+  var fadeInEnd = document.getElementById('fade-in-final-volume');
+  var fadeInEase = document.getElementById('fade-in-ease');
+  var fadeInCallback = document.getElementById('fade-in-callback');
 
-  this.fadeOutDuration = document.getElementById('fade-out-duration');
-  this.fadeOutStart = document.getElementById('fade-out-initial-volume');
-  this.fadeOutEnd = document.getElementById('fade-out-final-volume');
-  this.fadeOutEase = document.getElementById('fade-out-ease');
-  this.fadeOutCallback = document.getElementById('fade-out-callback');
+  var fadeOutDuration = document.getElementById('fade-out-duration');
+  var fadeOutStart = document.getElementById('fade-out-initial-volume');
+  var fadeOutEnd = document.getElementById('fade-out-final-volume');
+  var fadeOutEase = document.getElementById('fade-out-ease');
+ var fadeOutCallback = document.getElementById('fade-out-callback');
 
   function registerListeners(){
-    this.fadeInButton.addEventListener('mousedown', function(){
-      this.audioJS.fadeIn({duration: this.fadeInDuration.value, initialVolume: this.fadeInStart.value, finalVolume: this.fadeInEnd.value, ease: this.fadeInEase.value});
+    fadeInButton.addEventListener('mousedown', function(){
+      var options = 
+      {
+        duration: parseInt(fadeInDuration.value),
+        initialVolume: parseFloat(fadeInStart.value), 
+        finalVolume: parseFloat(fadeInEnd.value), 
+        ease: fadeInEase.value
+      };
+      audioJS.fadeIn(options);
     });
 
-    this.fadeOutButton.addEventListener('mousedown', function(){
-      this.audioJS.fadeIn({duration: this.fadeOutDuration.value, initialVolume: this.fadeOutStart.value, finalVolume: this.fadeOutEnd.value, ease: this.fadeOutEase.value});
+    fadeOutButton.addEventListener('mousedown', function(){
+      var options = 
+      {
+        duration: parseInt(fadeOutDuration.value),
+        initialVolume: parseFloat(fadeOutStart.value), 
+        finalVolume: parseFloat(fadeOutEnd.value), 
+        ease: fadeOutEase.value
+      };
+      audioJS.fadeIn(options);
     });
   }
   registerListeners();
