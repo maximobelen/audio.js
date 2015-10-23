@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>audio.js</title>
+    <link href="/styles/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app-container" class="container-fluid">
+      <a href="https://github.com/maximobelen/audio.js">
+        <img style="position: absolute; top: 0; left: 0; border: 0;" src="/images/fork-me-on-github.png" 
+        alt="Fork me on GitHub">
+      </a>
+      <h1>audio.js</h1>
+      <div id="fade-in" class="col-md-6 col-sm-12 col-xs-12 section">
+        <h2 class="title center-block">FadeIn</h2>
+        <form role="form" class="col-md-6 col-sm-4 col-xs-6 col-md-offset-3 col-sm-offset-4 col-xs-offset-3">
+          <div class="form-group">
+            <label for="duration">duration:</label>
+            <input type="number" class="form-control" id="duration">
+          </div>
+          <div class="form-group">
+            <label for="initialVolume">initialVolume:</label>
+            <input type="number" class="form-control" min="0.0" max="1.0" id="initialVolume">
+          </div>
+          <div class="form-group">
+            <label for="finalVolume">finalVolume:</label>
+            <input type="number" class="form-control" min="0.0" max="1.0" id="finalVolume">
+          </div>
+          <div class="form-group">
+            <label for="ease">ease:</label>
+            <select id="ease">
+              <option value="easeLinear">easeLinear</option>
+              <option value="easeInQuad">easeInQuad</option>
+              <option value="easeOutQuad">easeOutQuad</option>
+              <option value="easeInOutQuad">easeInOutQuad</option>
+              <option value="easeInCubic">easeInCubic</option>
+              <option value="easeOutCubic">easeOutCubic</option>
+              <option value="easeInOutCubic">easeInOutCubic</option>
+              <option value="easeInExpo">easeInExpo</option>
+              <option value="easeOutExpo">easeOutExpo</option>
+              <option value="easeInOutExpo">easeInOutExpo</option>
+              <option value="easeInCirc">easeInCirc</option>
+              <option value="easeOutCirc">easeOutCirc</option>
+              <option value="easeInOutCirc">easeInOutCirc</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="finalVolume">callback:</label>
+            <input type="text" class="form-control" id="callback">
+          </div>
+          <button type="submit" class="btn btn-default">Try it!</button>
+        </form>
+      </div>
+      <div id="fade-out" class="col-md-6 col-sm-12 col-xs-12 section">
+        <h2 class="title center-block">FadeOut</h2>
+        <form role="form" class="col-md-6 col-sm-4 col-xs-6 col-md-offset-3 col-sm-offset-4 col-xs-offset-3">
+          <div class="form-group">
+            <label for="duration">duration:</label>
+            <input type="number" class="form-control" id="duration">
+          </div>
+          <div class="form-group">
+            <label for="initialVolume">initialVolume:</label>
+            <input type="number" class="form-control" min="0.0" max="1.0" id="initialVolume">
+          </div>
+          <div class="form-group">
+            <label for="finalVolume">finalVolume:</label>
+            <input type="number" class="form-control" min="0.0" max="1.0" id="finalVolume">
+          </div>
+          <div class="form-group">
+            <label for="ease">ease:</label>
+            <select id="ease">
+              <option value="easeLinear">easeLinear</option>
+              <option value="easeInQuad">easeInQuad</option>
+              <option value="easeOutQuad">easeOutQuad</option>
+              <option value="easeInOutQuad">easeInOutQuad</option>
+              <option value="easeInCubic">easeInCubic</option>
+              <option value="easeOutCubic">easeOutCubic</option>
+              <option value="easeInOutCubic">easeInOutCubic</option>
+              <option value="easeInExpo">easeInExpo</option>
+              <option value="easeOutExpo">easeOutExpo</option>
+              <option value="easeInOutExpo">easeInOutExpo</option>
+              <option value="easeInCirc">easeInCirc</option>
+              <option value="easeOutCirc">easeOutCirc</option>
+              <option value="easeInOutCirc">easeInOutCirc</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="finalVolume">callback:</label>
+            <input type="text" class="form-control" id="callback">
+          </div>
+          <button type="submit" class="btn btn-default">Try it!</button>
+        </form>
+      </div>
+    </div>
+
+    <!--
+    Scripts
+    ================================================== 
+    Placed at the end of the document so the pages load faster -->
+    <!-- <script src="scripts/app.js"></script> -->
+    <script src="scripts/vendor.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
