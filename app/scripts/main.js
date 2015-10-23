@@ -8,7 +8,7 @@
 'use strict';
 
 var App = require('./app.js');
-
+var AudioJS = require('audio.js');
 var app = new App();
 
 app.init();
