@@ -1,5 +1,3 @@
-//module.exports = AudioJS;
-
 function AudioJS(element) {
   if (!(this instanceof AudioJS)) {
     return new AudioJS(element);
@@ -216,4 +214,5 @@ var selectEase = function(ease){
   }
 };
 
+module.exports = AudioJS;
 
