@@ -8,6 +8,7 @@
     <meta name="author" content="">
     <title>audio.js</title>
     <link href="/styles/app.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
   </head>
   <body>
     <div id="app-container" class="container-fluid">
@@ -57,13 +58,20 @@
             </select>
           </div>
           <button id="fade-in-button" type="submit" class="btn btn-default">Try it!</button>
+          <button id="fade-in-stop" type="button" class="btn btn-default">Stop!</button>
+          <img id="mario" src="../images/mario.png"></img>
         </form>
       </div>
       <div id="board" class="col-md-4 col-sm-12 col-xs-12">
         <h2 class="title center-block">BOARD</h2>
-        <audio id="audio-file">
-          <source src="/sounds/piano.ogg" type="audio/ogg">
-          <source src="/sounds/piano.mp3" type="audio/mpeg">
+        <audio id="fade-in-audio-file">
+          <source src="/sounds/groundmario.ogg" type="audio/ogg">
+          <source src="/sounds/groundmario.mp3" type="audio/mpeg">
+          Your browser does not support the audio tag.
+        </audio>
+        <audio id="fade-out-audio-file">
+          <source src="/sounds/undergroundmario.ogg" type="audio/ogg">
+          <source src="/sounds/undergroundmario.mp3" type="audio/mpeg">
           Your browser does not support the audio tag.
         </audio>
       </div>
@@ -108,6 +116,8 @@
             </select>
           </div>
           <button id="fade-out-button" type="submit" class="btn btn-default">Try it!</button>
+          <button id="fade-out-stop" type="button" class="btn btn-default">Stop!</button>
+          <img id="goomba" src="../images/goomba.png"></img>
         </form>
       </div>
     </div>

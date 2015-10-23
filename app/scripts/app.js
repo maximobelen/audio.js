@@ -8,11 +8,15 @@ module.exports = App;
 
 App.prototype.init = function () {
 
-  this.audio = document.getElementById('audio-file');
-  var audioJS = new AudioJS(this.audio);
+  var fadeInAudio = document.getElementById('fade-in-audio-file');
+  var fadeOutAudio = document.getElementById('fade-out-audio-file');
+  var audioInJS = new AudioJS(fadeInAudio);
+  var audioOutJS = new AudioJS(fadeOutAudio);
 
   var fadeInButton = document.getElementById('fade-in-button');
   var fadeOutButton = document.getElementById('fade-out-button');
+  var fadeInStop = document.getElementById('fade-in-stop');
+  var fadeOutStop = document.getElementById('fade-out-stop');
   var board = document.getElementById('audio-file');
 
   var fadeInDuration = document.getElementById('fade-in-duration');
@@ -28,7 +32,8 @@ App.prototype.init = function () {
   var fadeOutCallback = document.getElementById('fade-out-callback');
 
   function registerListeners(){
-    fadeInButton.addEventListener('mousedown', function(){
+    fadeInButton.addEventListener('mousedown', function() {
+      audioInJS.killFade();
       var options = 
       {
         duration: parseInt(fadeInDuration.value),
@@ -36,10 +41,15 @@ App.prototype.init = function () {
         finalVolume: parseFloat(fadeInEnd.value), 
         ease: fadeInEase.value
       };
-      audioJS.fadeIn(options);
+      audioInJS.fadeIn(options);
+    });
+    fadeInStop.addEventListener('mousedown', function(){
+      fadeInAudio.pause();
+      fadeInAudio.currentTime = 0;
     });
 
-    fadeOutButton.addEventListener('mousedown', function(){
+    fadeOutButton.addEventListener('mousedown', function() {
+      audioOutJS.killFade();
       var options = 
       {
         duration: parseInt(fadeOutDuration.value),
@@ -47,7 +57,11 @@ App.prototype.init = function () {
         finalVolume: parseFloat(fadeOutEnd.value), 
         ease: fadeOutEase.value
       };
-      audioJS.fadeOut(options);
+      audioOutJS.fadeOut(options);
+    });
+    fadeOutStop.addEventListener('mousedown', function(){
+      fadeOutAudio.pause();
+      fadeOutAudio.currentTime = 0;
     });
   }
   registerListeners();
