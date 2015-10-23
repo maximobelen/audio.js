@@ -1,3 +1,4 @@
+'use strict';
 function AudioJS(element) {
   if (!(this instanceof AudioJS)) {
     return new AudioJS(element);
@@ -8,7 +9,7 @@ function AudioJS(element) {
 
 AudioJS.prototype.fadeIn = function (options) {
   'use strict';
-  if (!isPlaying){
+  if (!isPlaying(this.audioElement)){
     this.audioElement.play();
   }
   var duration = options.duration, 
@@ -59,7 +60,7 @@ AudioJS.prototype.fadeIn = function (options) {
 
 AudioJS.prototype.fadeOut = function (options) {
   'use strict';
-  if (!isPlaying){
+  if (!isPlaying(this.audioElement)){
     this.audioElement.play();
   }
   var duration = options.duration, 
@@ -227,4 +228,3 @@ var selectEase = function(ease){
 };
 
 module.exports = AudioJS;
-
