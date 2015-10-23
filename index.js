@@ -7,6 +7,10 @@ function AudioJS(element) {
 }
 
 AudioJS.prototype.fadeIn = function (options) {
+  'use strict';
+  if (!isPlaying){
+    this.audioElement.play();
+  }
   var duration = options.duration, 
     initialVolume = options.initialVolume,
     finalVolume = options.finalVolume,
@@ -54,7 +58,10 @@ AudioJS.prototype.fadeIn = function (options) {
 };
 
 AudioJS.prototype.fadeOut = function (options) {
-
+  'use strict';
+  if (!isPlaying){
+    this.audioElement.play();
+  }
   var duration = options.duration, 
     initialVolume = options.initialVolume,
     finalVolume = options.finalVolume,
@@ -178,6 +185,11 @@ var easeInOutCirc = function (currentTime, start, change, duration) {
   if (currentTime < 1) return -change/2 * (Math.sqrt(1 - currentTime * currentTime) - 1) + start;
   currentTime -= 2;
   return change/2 * (Math.sqrt(1 - currentTime * currentTime) + 1) + start;
+};
+
+var isPlaying = function isPlaying(audio) { 
+  'use strict';
+  return !audio.paused; 
 };
 
 var selectEase = function(ease){
