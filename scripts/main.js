@@ -4,7 +4,7 @@ var AudioJS = require('audio.js');
 
 window.onload = function() {
   FX.fadeOut(document.getElementById('preloader'), {
-    duration: 1000,
+    duration: 600,
     complete: function() {
       document.getElementById('preloader').style.visibility = "hidden";
     }
@@ -89,14 +89,22 @@ App.prototype.init = function () {
       if(!fadeInDuration.value || !fadeInStart.value || !fadeInEnd.value){
         returnText= '// duration, initialVolume and finalVolume are required<br>// initialVolume should be lower than finalVolume';
       } else {
-        returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeInDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeInStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeInEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeInEase.value+"'<br>};<br><br>audioJS.fadeIn(options);";
+        if(fadeInCallback.value == "No"){
+          returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeInDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeInStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeInEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeInEase.value+"'<br>};<br><br>audioJS.fadeIn(options);";
+        } else {
+          returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeInDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeInStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeInEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeInEase.value+"', <br>&nbsp;&nbsp;callback: function(){ //do stuff }<br>};<br><br>audioJS.fadeIn(options);";
+        }
         isCorrect = true;
       }
     } else{
       if(!fadeOutDuration.value || !fadeOutStart.value || !fadeOutEnd.value){
         returnText= "// duration, initialVolume and finalVolume are required<br>// initialVolume should be higher than finalVolume";
       } else {
-        returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeOutDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeOutStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeOutEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeOutEase.value+"'<br>};<br><br>audioJS.fadeOut(options);";
+        if(fadeOutCallback.value == "No"){
+          returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeOutDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeOutStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeOutEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeOutEase.value+"'<br>};<br><br>audioJS.fadeOut(options);";
+        } else {
+          returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeOutDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeOutStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeOutEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeOutEase.value+"', <br>&nbsp;&nbsp;callback: function(){ //do stuff }<br>};<br><br>audioJS.fadeOut(options);";
+        }
         isCorrect = true;
       }
     }
