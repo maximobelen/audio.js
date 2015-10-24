@@ -39,11 +39,13 @@ App.prototype.init = function () {
       {
         duration: parseInt(fadeInDuration.value),
         initialVolume: parseFloat(fadeInStart.value), 
-        finalVolume: parseFloat(fadeInEnd.value), 
+        fialVolume: parseFloat(fadeInEnd.value), 
         ease: fadeInEase.value
       };
+      displayBoard(true);
       audioInJS.fadeIn(options);
     });
+
     fadeInStop.addEventListener('mousedown', function(){
       fadeInAudio.pause();
       fadeInAudio.currentTime = 0;
@@ -58,15 +60,32 @@ App.prototype.init = function () {
         finalVolume: parseFloat(fadeOutEnd.value), 
         ease: fadeOutEase.value
       };
+      displayBoard(false);
       audioOutJS.fadeOut(options);
     });
+
     fadeOutStop.addEventListener('mousedown', function(){
       fadeOutAudio.pause();
       fadeOutAudio.currentTime = 0;
     });
   }
-  function displayBoard(){
 
+  function displayBoard(fadeIn){
+    var returnText;
+    if (fadeIn) {
+      if(!fadeInDuration.value || !fadeInStart.value || !fadeInEnd.value){
+        returnText= "// duration, initialVolume and finalVolume are required<br>// initialVolume should be minor than finalVolume"
+      } else {
+        returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeInDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeInStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeInEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeInEase.value+"'<br>};<br><br>audioJS.fadeIn(options);";
+      }
+    } else{
+      if(!fadeOutDuration.value || !fadeOutStart.value || !fadeOutEnd.value){
+        returnText= "// duration, initialVolume and finalVolume are required<br>// initialVolume should be major than finalVolume"
+      } else {
+        returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeOutDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeOutStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeOutEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeOutEase.value+"'<br>};<br><br>audioJS.fadeOut(options);";
+      }
+    }
+    changeText.innerHTML = returnText;
   }
   registerListeners();
 };
