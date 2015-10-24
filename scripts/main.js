@@ -43,8 +43,9 @@ App.prototype.init = function () {
         fialVolume: parseFloat(fadeInEnd.value), 
         ease: fadeInEase.value
       };
-      displayBoard(true);
-      audioInJS.fadeIn(options);
+      if(displayBoard(true)){
+        audioInJS.fadeIn(options);
+      }
     });
 
     fadeInStop.addEventListener('mousedown', function(){
@@ -61,8 +62,9 @@ App.prototype.init = function () {
         finalVolume: parseFloat(fadeOutEnd.value), 
         ease: fadeOutEase.value
       };
-      displayBoard(false);
-      audioOutJS.fadeOut(options);
+      if(displayBoard(false)){
+        audioOutJS.fadeOut(options);
+      }
     });
 
     fadeOutStop.addEventListener('mousedown', function(){
@@ -73,20 +75,24 @@ App.prototype.init = function () {
 
   function displayBoard(fadeIn){
     var returnText;
+    var isCorrect = false;
     if (fadeIn) {
       if(!fadeInDuration.value || !fadeInStart.value || !fadeInEnd.value){
-        returnText= "// duration, initialVolume and finalVolume are required<br>// initialVolume should be minor than finalVolume"
+        returnText= '// duration, initialVolume and finalVolume are required<br>// initialVolume should be lower than finalVolume';
       } else {
         returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeInDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeInStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeInEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeInEase.value+"'<br>};<br><br>audioJS.fadeIn(options);";
+        isCorrect = true;
       }
     } else{
       if(!fadeOutDuration.value || !fadeOutStart.value || !fadeOutEnd.value){
-        returnText= "// duration, initialVolume and finalVolume are required<br>// initialVolume should be major than finalVolume"
+        returnText= "// duration, initialVolume and finalVolume are required<br>// initialVolume should be higher than finalVolume";
       } else {
         returnText = "var options = { <br>&nbsp;&nbsp;duration: "+parseInt(fadeOutDuration.value)+",<br>&nbsp;&nbsp;initialVolume: "+parseFloat(fadeOutStart.value)+", <br>&nbsp;&nbsp;finalVolume: "+parseFloat(fadeOutEnd.value)+", <br>&nbsp;&nbsp;ease: '"+fadeOutEase.value+"'<br>};<br><br>audioJS.fadeOut(options);";
+        isCorrect = true;
       }
     }
     changeText.innerHTML = returnText;
+    return isCorrect;
   }
   registerListeners();
 };
