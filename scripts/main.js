@@ -6,7 +6,9 @@ window.onload = function() {
   FX.fadeOut(document.getElementById('preloader'), {
     duration: 1000,
     complete: function() {
+      document.getElementById('preloader').style.visibility = "hidden";
     }
+
   });
 };
 function App() {
