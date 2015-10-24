@@ -40,7 +40,7 @@ App.prototype.init = function () {
       {
         duration: parseInt(fadeInDuration.value),
         initialVolume: parseFloat(fadeInStart.value), 
-        fialVolume: parseFloat(fadeInEnd.value), 
+        finalVolume: parseFloat(fadeInEnd.value), 
         ease: fadeInEase.value
       };
       if(displayBoard(true)){
