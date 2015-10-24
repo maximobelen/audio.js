@@ -18,6 +18,7 @@ App.prototype.init = function () {
   var fadeInStop = document.getElementById('fade-in-stop');
   var fadeOutStop = document.getElementById('fade-out-stop');
   var board = document.getElementById('audio-file');
+  var changeText = document.getElementById('change-text');
 
   var fadeInDuration = document.getElementById('fade-in-duration');
   var fadeInStart = document.getElementById('fade-in-initial-volume');
@@ -63,6 +64,9 @@ App.prototype.init = function () {
       fadeOutAudio.pause();
       fadeOutAudio.currentTime = 0;
     });
+  }
+  function displayBoard(){
+
   }
   registerListeners();
 };

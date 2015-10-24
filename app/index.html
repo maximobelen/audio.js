@@ -17,7 +17,7 @@
         alt="Fork me on GitHub">
       </a>
       <h1>audio.js</h1>
-      <div id="fade-in" class="col-md-4 col-sm-12 col-xs-12 section">
+      <div id="fade-in" class="col-md-3 col-sm-12 col-xs-12 section">
         <h2 class="title center-block">FadeIn</h2>
         <form onsubmit="return false" role="form" class="col-md-8 col-sm-6 col-xs-8 col-md-offset-1 col-sm-offset-3 col-xs-offset-2">
           <div class="form-group">
@@ -62,8 +62,8 @@
           <img id="mario" src="../images/mario.png"></img>
         </form>
       </div>
-      <div id="board" class="col-md-4 col-sm-12 col-xs-12">
-        <h2 class="title center-block">BOARD</h2>
+      <div id="board" class="col-md-6 visible-md visible-lg">
+        <h2 class="title center-block">npm install audio.js</h2>
         <audio id="fade-in-audio-file">
           <source src="/sounds/groundmario.ogg" type="audio/ogg">
           <source src="/sounds/groundmario.mp3" type="audio/mpeg">
@@ -74,8 +74,10 @@
           <source src="/sounds/undergroundmario.mp3" type="audio/mpeg">
           Your browser does not support the audio tag.
         </audio>
+        <p id="fix-text">var AudioJS = require('audio.js');<br>var audioEle = document.getElementById('audio');<br>var audioInJS = new AudioJS(audioEle);<br></p>
+        <p id="change-text"></p>
       </div>
-      <div id="fade-out" class="col-md-4 col-sm-12 col-xs-12 section">
+      <div id="fade-out" class="col-md-3 col-sm-12 col-xs-12 section">
         <h2 class="title center-block">FadeOut</h2>
         <form onsubmit="return false" role="form" class="col-md-8 col-sm-6 col-xs-8 col-md-offset-1 col-sm-offset-3 col-xs-offset-2">
           <div class="form-group">
