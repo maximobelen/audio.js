@@ -2,7 +2,7 @@
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-A handler for easing html5 audios volume
+A handler for easing html5 audios volume  
   Take a look to the demo --> [Demo](http://maximobele .github.io/audio.js/)
 
 ```js
