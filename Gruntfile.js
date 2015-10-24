@@ -288,15 +288,15 @@ module.exports = function(grunt) {
       // `index.html` will take care of minification, e.g.
       //
       //     <!-- build:css({.tmp,app}) styles/main.css -->
-      //
-      // dist: {
-      //     files: {
-      //         '/styles/main.css': [
-      //             '.tmp/styles/{,*/}*.css',
-      //             '/styles/{,*/}*.css'
-      //         ]
-      //     }
-      // }
+      
+       dist: {
+           files: {
+               '/styles/main.css': [
+                   '.tmp/styles/{,*/}*.css',
+                   '/styles/{,*/}*.css'
+               ]
+           }
+       }
     },
     htmlmin: {
       dist: {
@@ -369,7 +369,7 @@ module.exports = function(grunt) {
         'browserify:test'
       ],
       dist: [
-        'less:dist',
+        'less:min',
         'browserify',
         'copy:styles',
         'copy:sounds',
@@ -416,7 +416,6 @@ module.exports = function(grunt) {
     'autoprefixer',
     'concat',
     'cssmin',
-    'uglify',
     'copy:dist',
     'rev',
     'usemin'
