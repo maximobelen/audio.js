@@ -6,7 +6,18 @@ var AudioJS = (function AudioJS(element) {
   audioElement,
   killed;
   
-  var statusString = ['loaded','playing', 'paused', 'stoped', 'fading'];
+  var statusString = ['loaded', 'playing', 'paused', 'stoped', 'fading', 'endFade', 'ended'];
+
+  var addAudioListeners = function(){
+      audioElement.addEventListener("play", function() {
+        if(status != 4) {
+          status = 1;
+        }
+      });
+      audioElement.addEventListener("ended", function() {
+        status = 6;
+      });
+  };
 
   function AudioJS(element) {
     if (!(this instanceof AudioJS)) {
@@ -14,6 +25,7 @@ var AudioJS = (function AudioJS(element) {
     }
     killed = false;
     audioElement = element;
+    return this;
   }
 
   AudioJS.prototype.fadeIn = function (options) {
@@ -61,7 +73,7 @@ var AudioJS = (function AudioJS(element) {
       } else {
         if(callback){
           callback();
-          status = 3;
+          status = 5;
         }
         killed = false;
       }
@@ -115,6 +127,7 @@ var AudioJS = (function AudioJS(element) {
 
   AudioJS.prototype.fadeOut = function (options) {
     killed = false;
+    status = 4;
     if (!isPlaying(audioElement)){
       audioElement.play();
     }
@@ -156,6 +169,7 @@ var AudioJS = (function AudioJS(element) {
       } else {
         if(callback){
           callback();
+          status = 5;
         }
         killed = false;
       }
@@ -274,4 +288,4 @@ var AudioJS = (function AudioJS(element) {
   return AudioJS;
 });
 
-module.exports = AudioJS;
+module.exports = AudioJS();
