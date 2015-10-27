@@ -2,7 +2,7 @@
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-A handler for easing html5 audios  
+A handler for HTML5 audios, special to fade volume  
   Take a look to the demo, only for check fades--> [Demo](http://maximobelen.github.io/audio.js/)
 
 ```js
@@ -23,6 +23,7 @@ var options = {
 audioJS.play(callback);  
 audioJS.stop(callback);  
 audioJS.pause();  
+audioJS.setVolume(0.4);  
 audioJS.status();  
 audioJS.load();  
 audioJS.getStringStatus();  

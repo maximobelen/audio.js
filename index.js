@@ -103,6 +103,11 @@ AudioJS.prototype.play = function (callback) {
   }
 };
 
+AudioJS.prototype.setVolume = function (volume) {
+  this.getAudio().volume = volume;
+  
+};
+
 AudioJS.prototype.load = function (callback) {
   this.getAudio().load();
   this.setStatus(0);
