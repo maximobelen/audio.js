@@ -2,8 +2,8 @@
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-A handler for easing html5 audios volume  
-  Take a look to the demo --> [Demo](http://maximobelen.github.io/audio.js/)
+A handler for easing html5 audios  
+  Take a look to the demo, only for check fades--> [Demo](http://maximobelen.github.io/audio.js/)
 
 ```js
 var AudioJS = require('audio.js');  
@@ -19,6 +19,20 @@ var options = {
   ease: 'easeOutExpo',
   callback: function(){console.log('Im a callback!');}
 };  
+  
+audioJS.play(callback);  
+audioJS.stop(callback);  
+audioJS.pause();  
+audioJS.status();  
+audioJS.load();  
+audioJS.getStringStatus();  
+  // 0 is loaded  
+  // 1 is playing  
+  // 2 paused  
+  // 3 stoped  
+  // 4 is fading  
+  // 5 endFade  
+  // 6 ended  
   
 audioJS.fadeIn(options);
 
