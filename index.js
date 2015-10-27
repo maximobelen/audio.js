@@ -1,6 +1,5 @@
-
+"use strict";
 function AudioJS(element) {
-  "use strict";
   if (!(this instanceof AudioJS)) {
     return new AudioJS(element);
   }
@@ -8,14 +7,7 @@ function AudioJS(element) {
   var status,
     audioElement = element;
   
-  this.killed = false;
-  
-  var statusString = ['loaded', 'playing', 'paused', 'stoped', 'fading', 'endFade', 'ended'];
-
   var addAudioListeners = function(){
-      audioElement.addEventListener("play", function() {
-        status = 1;
-      });
       audioElement.addEventListener("ended", function() {
         status = 6;
       });
@@ -34,6 +26,8 @@ function AudioJS(element) {
   addAudioListeners();
 }
 
+AudioJS.prototype.statusString = ['loaded', 'playing', 'paused', 'stoped', 'fading', 'endFade', 'ended'];
+AudioJS.prototype.killed = false;
 
 AudioJS.prototype.fadeIn = function (options) {
   this.killed = false;
@@ -132,7 +126,7 @@ AudioJS.prototype.pause = function () {
 };
 
 AudioJS.prototype.getStringStatus = function () {
-  return statusString[this.getStatus()];
+  return this.statusString[this.getStatus()];
 };
 
 AudioJS.prototype.status = function () {

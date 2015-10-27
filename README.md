@@ -41,12 +41,29 @@ audioJS.fadeIn(options);
 
 ##Methods
   
+###PLAY
+```js
+audioJS.play(function(){console.log('ended')});
+//Status here is 1
+// This function play the audio, and when the audio complete playing execute the callback function
+//After the audio ended status is 6
+
+```
+  
+###STOP
+```js
+audioJS.stop(function(){console.log('ended')});
+//Status here is 3
+// This function stop the audio, and when the audio is stoped execute the callback function
+```
+  
 ###FADE IN
 ```js
 audioJS.fadeIn({duration: 2, initialVolume: 0, finalVolume: 0.95, ease: 'easeOutExpo'});
-  
+//Status here is 4  
 audioJS.fadeIn({duration: 10, initialVolume: 0, finalVolume: 0.95, ease: 'easeOutExpo', 
   callback: function(){
+    //Status here is 5  
     console.log("bullshit");
   }
 });
