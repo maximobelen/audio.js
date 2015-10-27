@@ -20,8 +20,8 @@ App.prototype.init = function () {
 
   var fadeInAudio = document.getElementById('fade-in-audio-file');
   var fadeOutAudio = document.getElementById('fade-out-audio-file');
-  var audioInJS = new AudioJS(fadeInAudio);
   var audioOutJS = new AudioJS(fadeOutAudio);
+  var audioInJS = new AudioJS(fadeInAudio);
 
   var fadeInButton = document.getElementById('fade-in-button');
   var fadeOutButton = document.getElementById('fade-out-button');
@@ -58,8 +58,7 @@ App.prototype.init = function () {
     });
 
     fadeInStop.addEventListener('mousedown', function(){
-      fadeInAudio.pause();
-      fadeInAudio.currentTime = 0;
+      audioInJS.stop();
     });
 
     fadeOutButton.addEventListener('mousedown', function() {
@@ -77,8 +76,7 @@ App.prototype.init = function () {
     });
 
     fadeOutStop.addEventListener('mousedown', function(){
-      fadeOutAudio.pause();
-      fadeOutAudio.currentTime = 0;
+      audioOutJS.stop();
     });
   }
 
@@ -131,245 +129,302 @@ var app = new App();
 
 app.init();
 },{"./app.js":1,"audio.js":3}],3:[function(require,module,exports){
-'use strict';
-function AudioJS(element) {
-  if (!(this instanceof AudioJS)) {
-    return new AudioJS(element);
-  }
-  this.killed = false;
-  this.audioElement = element;
-}
+  "use strict";
 
-AudioJS.prototype.fadeIn = function (options) {
-  'use strict';
-  this.killed = false;
-  if (!isPlaying(this.audioElement)){
-    this.audioElement.play();
-  }
-  var duration = options.duration, 
-    initialVolume = options.initialVolume,
-    finalVolume = options.finalVolume,
-    ease = options.ease,
-    callback = options.callback;
+  function AudioJS(element) {
+    if (!(this instanceof AudioJS)) {
+      return new AudioJS(element);
+    }
 
-  var vol = initialVolume;
-  this.audioElement.volume = vol;
-  var startTime = new Date();
-  var elapsedTime = 0;
-  var change = finalVolume - initialVolume;
-
-  if (ease) {
-    ease = selectEase(ease);
-  } else {
-    ease = easeLinear;
-  }
-
-  var fadeIn = function () {
-    var currentTime = new Date();
-    elapsedTime = (currentTime.getTime() - startTime.getTime()) / 1000;
-    vol = ease(elapsedTime, 0, change, duration);
-    if (vol <= initialVolume){
-      this.audioElement.volume = initialVolume;
-    } else {
-      if ( vol >= finalVolume) {
-        this.audioElement.volume = finalVolume;
-      } else {
-        this.audioElement.volume = vol;
-      }
-    } 
+    var status,
+      audioElement = element;
     
-    if (elapsedTime < duration && !this.killed) {
-      setTimeout(function() {
-        fadeIn();
-      }, null);
-    } else {
-      if(callback){
-        callback();
-      }
-      this.killed = false;
+    this.killed = false;
+    
+    var statusString = ['loaded', 'playing', 'paused', 'stoped', 'fading', 'endFade', 'ended'];
+
+    var addAudioListeners = function(){
+        audioElement.addEventListener("play", function() {
+          status = 1;
+        });
+        audioElement.addEventListener("ended", function() {
+          status = 6;
+        });
+    };
+    
+    this.getAudio = function() {
+        return audioElement;
+    };
+    
+    this.setStatus = function(s) {
+        status = s;
+    };
+    this.getStatus = function() {
+        return status;
+    };
+    addAudioListeners();
+  }
+
+
+  AudioJS.prototype.fadeIn = function (options) {
+    this.killed = false;
+    this.setStatus(4);
+    if (!isPlaying(this.getAudio())){
+      this.play();
     }
-  }.bind(this);
+    var duration = options.duration, 
+      initialVolume = options.initialVolume,
+      finalVolume = options.finalVolume,
+      ease = options.ease,
+      callback = options.callback;
 
-  fadeIn();
-};
-AudioJS.prototype.killFade = function () {
-  this.killed = true;
-};
+    var vol = initialVolume;
+    this.getAudio().volume = vol;
+    var startTime = new Date();
+    var elapsedTime = 0;
+    var change = finalVolume - initialVolume;
 
-AudioJS.prototype.fadeOut = function (options) {
-  'use strict';
-  this.killed = false;
-  if (!isPlaying(this.audioElement)){
-    this.audioElement.play();
-  }
-  var duration = options.duration, 
-    initialVolume = options.initialVolume,
-    finalVolume = options.finalVolume,
-    ease = options.ease,
-    callback = options.callback;
-
-  var vol = initialVolume;
-  var startVolume = initialVolume;
-  this.audioElement.volume = vol;
-  var startTime = new Date();
-  var elapsedTime = 0;
-  var change = finalVolume - initialVolume;
-
-  if (ease) {
-    ease = selectEase(ease);
-  } else {
-    ease = easeLinear;
-  }
-  var fadeOut = function () {
-    var currentTime = new Date();
-    elapsedTime = (currentTime.getTime() - startTime.getTime()) / 1000;
-    vol = easeInExpo(elapsedTime, 0, change, duration);
-    if ((startVolume + vol) <= finalVolume){
-      this.audioElement.volume = finalVolume;
+    if (ease) {
+      ease = selectEase(ease);
     } else {
-      if ( (startVolume + vol) >= initialVolume) {
-        this.audioElement.volume = initialVolume;
+      ease = easeLinear;
+    }
+
+    var fadeIn = function () {
+      var currentTime = new Date();
+      elapsedTime = (currentTime.getTime() - startTime.getTime()) / 1000;
+      vol = ease(elapsedTime, 0, change, duration);
+      if (vol <= initialVolume){
+        this.getAudio().volume = initialVolume;
       } else {
-        this.audioElement.volume = (startVolume + vol);
+        if ( vol >= finalVolume) {
+          this.getAudio().volume = finalVolume;
+        } else {
+          this.getAudio().volume = vol;
+        }
+      } 
+      
+      if (elapsedTime < duration && !this.killed) {
+        setTimeout(function() {
+          fadeIn();
+        }, null);
+      } else {
+        if(callback){
+          callback();
+          this.setStatus(5);
+        }
+        this.killed = false;
       }
-    } 
-    if (elapsedTime < duration && !this.killed) {
-      setTimeout(function() {
-        fadeOut();
-      }, null);
-    } else {
-      if(callback){
+    }.bind(this);
+
+    fadeIn();
+  };
+
+  AudioJS.prototype.killFade = function () {
+    this.killed = true;
+  };
+
+  AudioJS.prototype.play = function (callback) {
+    this.getAudio().play();
+    this.setStatus(1);
+    if (callback) {
+      this.getAudio().addEventListener('ended', function() {
         callback();
-      }
-      this.killed = false;
+      });
     }
-  }.bind(this);
-  fadeOut();
-};
+  };
 
-var easeLinear = function (currentTime, start, change, duration) {
-  'use strict';
-  return change * currentTime/duration + start;
-};
+  AudioJS.prototype.load = function (callback) {
+    this.getAudio().load();
+    this.setStatus(0);
+    if (callback) {
+      this.getAudio().addEventListener('canplay', function() {
+        callback();
+      });
+    }
+  };
 
-var easeInQuad = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration;
-  return change * currentTime * currentTime + start;
-};
+  AudioJS.prototype.stop = function () {
+    this.getAudio().pause();
+    this.killFade();
+    this.getAudio().currentTime = 0;
+    this.setStatus(3);
+  };
 
-var easeOutQuad = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration;
-  return -change * currentTime * (currentTime-2) + start;
-};
+  AudioJS.prototype.pause = function () {
+    this.getAudio().pause();
+    this.killFade();
+    this.setStatus(2);
+  };
 
-var easeInOutQuad = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration/2;
-  if (currentTime < 1) return change/2 * currentTime * currentTime + start;
-  currentTime--;
-  return -change/2 * (currentTime * ( currentTime - 2) - 1) + start;
-};
+  AudioJS.prototype.getStringStatus = function () {
+    return statusString[this.getStatus()];
+  };
 
-var easeInCubic = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration;
-  return change * currentTime * currentTime * currentTime + start;
-};
+  AudioJS.prototype.status = function () {
+    return this.getStatus();
+  };
 
-var easeOutCubic = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration;
-  currentTime--;
-  return change * (currentTime * currentTime * currentTime + 1) + start;
-};
+  AudioJS.prototype.fadeOut = function (options) {
+    this.killed = false;
+    this.setStatus(4);
+    if (!isPlaying(this.getAudio())){
+      this.play();
+    }
+    var duration = options.duration, 
+      initialVolume = options.initialVolume,
+      finalVolume = options.finalVolume,
+      ease = options.ease,
+      callback = options.callback;
 
-var easeInOutCubic = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration/2;
-  if (currentTime < 1) return change/2 * currentTime * currentTime * currentTime + start;
-  currentTime -= 2;
-  return change/2 * (currentTime * currentTime * currentTime + 2) + start;
-};
+    var vol = initialVolume;
+    var startVolume = initialVolume;
+    this.getAudio().volume = vol;
+    var startTime = new Date();
+    var elapsedTime = 0;
+    var change = finalVolume - initialVolume;
 
-var easeInExpo = function (currentTime, start, change, duration){
-  'use strict';
-  return change * Math.pow( 2, 10 * (currentTime/duration - 1) ) + start;
-};
+    if (ease) {
+      ease = selectEase(ease);
+    } else {
+      ease = easeLinear;
+    }
+    var fadeOut = function () {
+      var currentTime = new Date();
+      elapsedTime = (currentTime.getTime() - startTime.getTime()) / 1000;
+      vol = easeInExpo(elapsedTime, 0, change, duration);
+      if ((startVolume + vol) <= finalVolume){
+        this.getAudio().volume = finalVolume;
+      } else {
+        if ( (startVolume + vol) >= initialVolume) {
+          this.getAudio().volume = initialVolume;
+        } else {
+          this.getAudio().volume = (startVolume + vol);
+        }
+      } 
+      if (elapsedTime < duration && !this.killed) {
+        setTimeout(function() {
+          fadeOut();
+        }, null);
+      } else {
+        if(callback){
+          callback();
+          this.setStatus(5);
+        }
+        this.killed = false;
+      }
+    }.bind(this);
+    fadeOut();
+  };
 
-var easeOutExpo = function (currentTime, start, change, duration) {
-  'use strict';
-  return change * ( -Math.pow( 2, -10 * currentTime/duration ) + 1 ) + start;
-};
+  var easeLinear = function (currentTime, start, change, duration) {
+    return change * currentTime/duration + start;
+  };
 
-var easeInOutExpo = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration/2;
-  if (currentTime < 1) return change / 2 * Math.pow( 2, 10 * (currentTime - 1) ) + start;
-  currentTime--;
-  return change/2 * ( -Math.pow( 2, -10 * currentTime) + 2 ) + start;
-};
+  var easeInQuad = function (currentTime, start, change, duration) {
+    currentTime /= duration;
+    return change * currentTime * currentTime + start;
+  };
 
-var easeInCirc = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration;
-  return -change * (Math.sqrt(1 - currentTime * currentTime) - 1) + start;
-};
+  var easeOutQuad = function (currentTime, start, change, duration) {
+    currentTime /= duration;
+    return -change * currentTime * (currentTime-2) + start;
+  };
 
-var easeOutCirc = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration;
-  currentTime--;
-  return change * Math.sqrt(1 - currentTime * currentTime) + start;
-};
+  var easeInOutQuad = function (currentTime, start, change, duration) {
+    currentTime /= duration/2;
+    if (currentTime < 1) return change/2 * currentTime * currentTime + start;
+    currentTime--;
+    return -change/2 * (currentTime * ( currentTime - 2) - 1) + start;
+  };
 
-var easeInOutCirc = function (currentTime, start, change, duration) {
-  'use strict';
-  currentTime /= duration/2;
-  if (currentTime < 1) return -change/2 * (Math.sqrt(1 - currentTime * currentTime) - 1) + start;
-  currentTime -= 2;
-  return change/2 * (Math.sqrt(1 - currentTime * currentTime) + 1) + start;
-};
+  var easeInCubic = function (currentTime, start, change, duration) {
+    currentTime /= duration;
+    return change * currentTime * currentTime * currentTime + start;
+  };
 
-var isPlaying = function isPlaying(audio) { 
-  'use strict';
-  return !audio.paused; 
-};
+  var easeOutCubic = function (currentTime, start, change, duration) {
+    currentTime /= duration;
+    currentTime--;
+    return change * (currentTime * currentTime * currentTime + 1) + start;
+  };
 
-var selectEase = function(ease){
-  'use strict';
-  switch (ease) {
-    case 'easeLinear':
-      return easeLinear; 
-    case 'easeInQuad': 
-      return easeInQuad;
-    case 'easeOutQuad': 
-      return easeOutQuad;
-    case 'easeInOutQuad': 
-      return easeInOutQuad;
-    case 'easeInCubic': 
-      return easeInCubic;
-    case 'easeOutCubic': 
-      return easeOutCubic;
-    case 'easeInOutCubic': 
-      return easeInOutCubic;
-    case 'easeInExpo': 
-      return easeInExpo;
-    case 'easeOutExpo': 
-      return easeOutExpo;
-    case 'easeInOutExpo': 
-      return easeInOutExpo;
-    case 'easeInCirc': 
-      return easeInCirc;
-    case 'easeOutCirc': 
-      return easeOutCirc;
-    case 'easeInOutCirc': 
-      return easeInOutCirc;
-    default:
-      return easeLinear;
+  var easeInOutCubic = function (currentTime, start, change, duration) {
+    currentTime /= duration/2;
+    if (currentTime < 1) return change/2 * currentTime * currentTime * currentTime + start;
+    currentTime -= 2;
+    return change/2 * (currentTime * currentTime * currentTime + 2) + start;
+  };
+
+  var easeInExpo = function (currentTime, start, change, duration){
+    return change * Math.pow( 2, 10 * (currentTime/duration - 1) ) + start;
+  };
+
+  var easeOutExpo = function (currentTime, start, change, duration) {
+    return change * ( -Math.pow( 2, -10 * currentTime/duration ) + 1 ) + start;
+  };
+
+  var easeInOutExpo = function (currentTime, start, change, duration) {
+    currentTime /= duration/2;
+    if (currentTime < 1) return change / 2 * Math.pow( 2, 10 * (currentTime - 1) ) + start;
+    currentTime--;
+    return change/2 * ( -Math.pow( 2, -10 * currentTime) + 2 ) + start;
+  };
+
+  var easeInCirc = function (currentTime, start, change, duration) {
+    currentTime /= duration;
+    return -change * (Math.sqrt(1 - currentTime * currentTime) - 1) + start;
+  };
+
+  var easeOutCirc = function (currentTime, start, change, duration) {
+    currentTime /= duration;
+    currentTime--;
+    return change * Math.sqrt(1 - currentTime * currentTime) + start;
+  };
+
+  var easeInOutCirc = function (currentTime, start, change, duration) {
+    currentTime /= duration/2;
+    if (currentTime < 1) return -change/2 * (Math.sqrt(1 - currentTime * currentTime) - 1) + start;
+    currentTime -= 2;
+    return change/2 * (Math.sqrt(1 - currentTime * currentTime) + 1) + start;
+  };
+
+  var isPlaying = function isPlaying(audio) { 
+    return !audio.paused; 
+  };
+
+  var selectEase = function(ease){
+    switch (ease) {
+      case 'easeLinear':
+        return easeLinear; 
+      case 'easeInQuad': 
+        return easeInQuad;
+      case 'easeOutQuad': 
+        return easeOutQuad;
+      case 'easeInOutQuad': 
+        return easeInOutQuad;
+      case 'easeInCubic': 
+        return easeInCubic;
+      case 'easeOutCubic': 
+        return easeOutCubic;
+      case 'easeInOutCubic': 
+        return easeInOutCubic;
+      case 'easeInExpo': 
+        return easeInExpo;
+      case 'easeOutExpo': 
+        return easeOutExpo;
+      case 'easeInOutExpo': 
+        return easeInOutExpo;
+      case 'easeInCirc': 
+        return easeInCirc;
+      case 'easeOutCirc': 
+        return easeOutCirc;
+      case 'easeInOutCirc': 
+        return easeInOutCirc;
+      default:
+        return easeLinear;
+    }
   }
-};
 
 module.exports = AudioJS;
 },{}]},{},[2]);
