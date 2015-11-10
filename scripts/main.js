@@ -131,44 +131,35 @@ app.init();
 },{"./app.js":1,"audio.js":3}],3:[function(require,module,exports){
   "use strict";
 
-  function AudioJS(element) {
-    if (!(this instanceof AudioJS)) {
-      return new AudioJS(element);
-    }
+ var AudioJS = function (element) {
+  
+  var audioJS = {};
+  
+  var statusString = ['loaded', 'playing', 'paused', 'stoped', 'fading', 'endFade', 'ended'];
+  var killed = false;
 
-    var status,
-      audioElement = element;
-    
+  var status,
+    audioElement = element;
+  
+  var addAudioListeners = function(){
+      audioElement.addEventListener("ended", function() {
+        status = 6;
+      });
+  };
+  
+  audioJS.getAudio = function() {
+      return audioElement;
+  };
+  
+  audioJS.getStatus = function() {
+      return status;
+  };
+
+  addAudioListeners();
+
+  audioJS.fadeIn = function (options) {
     this.killed = false;
-    
-    var statusString = ['loaded', 'playing', 'paused', 'stoped', 'fading', 'endFade', 'ended'];
-
-    var addAudioListeners = function(){
-        audioElement.addEventListener("play", function() {
-          status = 1;
-        });
-        audioElement.addEventListener("ended", function() {
-          status = 6;
-        });
-    };
-    
-    this.getAudio = function() {
-        return audioElement;
-    };
-    
-    this.setStatus = function(s) {
-        status = s;
-    };
-    this.getStatus = function() {
-        return status;
-    };
-    addAudioListeners();
-  }
-
-
-  AudioJS.prototype.fadeIn = function (options) {
-    this.killed = false;
-    this.setStatus(4);
+    status = 4;
     if (!isPlaying(this.getAudio())){
       this.play();
     }
@@ -220,13 +211,13 @@ app.init();
     fadeIn();
   };
 
-  AudioJS.prototype.killFade = function () {
+  audioJS.killFade = function () {
     this.killed = true;
   };
 
-  AudioJS.prototype.play = function (callback) {
+  audioJS.play = function (callback) {
     this.getAudio().play();
-    this.setStatus(1);
+    status = 1;
     if (callback) {
       this.getAudio().addEventListener('ended', function() {
         callback();
@@ -234,9 +225,14 @@ app.init();
     }
   };
 
-  AudioJS.prototype.load = function (callback) {
+  audioJS.setVolume = function (volume) {
+    this.getAudio().volume = volume;
+    
+  };
+
+  audioJS.load = function (callback) {
     this.getAudio().load();
-    this.setStatus(0);
+    status = 0;
     if (callback) {
       this.getAudio().addEventListener('canplay', function() {
         callback();
@@ -244,30 +240,30 @@ app.init();
     }
   };
 
-  AudioJS.prototype.stop = function () {
+  audioJS.stop = function () {
     this.getAudio().pause();
     this.killFade();
     this.getAudio().currentTime = 0;
-    this.setStatus(3);
+    status = 3;
   };
 
-  AudioJS.prototype.pause = function () {
+  audioJS.pause = function () {
     this.getAudio().pause();
     this.killFade();
-    this.setStatus(2);
+    status = 2;
   };
 
-  AudioJS.prototype.getStringStatus = function () {
-    return statusString[this.getStatus()];
+  audioJS.getStringStatus = function () {
+    return this.statusString[this.getStatus()];
   };
 
-  AudioJS.prototype.status = function () {
+  audioJS.status = function () {
     return this.getStatus();
   };
 
-  AudioJS.prototype.fadeOut = function (options) {
+  audioJS.fadeOut = function (options) {
     this.killed = false;
-    this.setStatus(4);
+    status = 4;
     if (!isPlaying(this.getAudio())){
       this.play();
     }
@@ -309,7 +305,7 @@ app.init();
       } else {
         if(callback){
           callback();
-          this.setStatus(5);
+          status = 5;
         }
         this.killed = false;
       }
@@ -424,7 +420,11 @@ app.init();
       default:
         return easeLinear;
     }
-  }
+  };
+
+  return audioJS;
+};
+
 
 module.exports = AudioJS;
 },{}]},{},[2]);
